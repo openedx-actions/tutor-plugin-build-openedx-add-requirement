@@ -27,54 +27,61 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Find tutor
-      id: find-tutor
-      shell: bash
-      run: |
-        if [ ! -d "$(tutor config printroot)/" ]; then
-          echo "This action requires tutor. Add Github Action openedx-actions/tutor-k8s-init to your workflow prior to running this action. Exiting"
-          echo "::set-output found='false'"
-          exit
-        else
-          echo "::set-output found='true'"
-        fi
 
     - name: Setup environment
-      if: ${{ steps.find-tutor.outputs.found == 'true' }}
       id: init
       shell: bash
       run: |-
         echo "PLUGINS_PATH=$(tutor config printroot)/env/build/openedx/requirements" >> $GITHUB_ENV
 
-    - uses: actions/checkout@v3.0.2
+    - name: actions/checkout
+      uses: actions/checkout@v3.0.2
+
+    - name: print tutor plugins path
+      id: print-plugin-path
+      shell: bash
+      run: echo $PLUGINS_PATH
 
     - name: Checkout repo
-      if: ${{ steps.find-tutor.outputs.found == 'true' }}
       id: checkout-repo
       uses: actions/checkout@v3.0.2
       with:
         repository: ${{ inputs.repository-organization }}/${{ inputs.repository }}
-        path: tutor/env/build/openedx/requirements/${{ inputs.repository }}
         token: ${{ github.token }}
+        path: ./${{ inputs.repository }}
         ref: ${{ inputs.repository-ref }}
 
+    - name: move repo into position
+      id: move-repo
+      shell: bash
+      run: mv $GITHUB_WORKSPACE/${{ inputs.repository }} $PLUGINS_PATH/
+
     - name: Create private.txt
-      if: ${{ steps.find-tutor.outputs.found == 'true' }}
       id: create-private-txt
       shell: bash
-      run: ${{ github.action_path }}/scripts/create-private-txt.sh
+      run: ./scripts/create-private-txt.sh
 
     - name: Add requirement to private.txt
-      if: ${{ steps.find-tutor.outputs.found == 'true' }}
       id: add-requirement
       shell: bash
       run: |-
-        echo "-e ./${{ inputs.repository }}" > ${PLUGINS_PATH}/private.txt
+        echo "-e ./${{ inputs.repository }}" >> ${PLUGINS_PATH}/private.txt
         echo "new requirement added to private.txt: "
-        cat "${PLUGINS_PATH}/private.txt"
+
+    - name: render private.txt
+      id: render-private-txt
+      shell: bash
+      run: |-
+        cat ${PLUGINS_PATH}/private.txt
+
+    - name: tutor plugins directory contents
+      id: plugins-directory
+      shell: bash
+      run: |-
+        ls ${PLUGINS_PATH} -lha
 
     - name: Finalize workflow
       id: finalize
       shell: bash
       run: |
-        echo "::set-output path=${{ github.action_path }}/tutor/env/build/openedx/requirements/${{ inputs.repository }}"
+        echo "::set-output path=${PLUGINS_PATH}/${{ inputs.repository }}"
