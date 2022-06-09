@@ -59,7 +59,7 @@ runs:
     - name: Create private.txt
       id: create-private-txt
       shell: bash
-      run: ./scripts/create-private-txt.sh
+      run: ${{ github.action_path }}/scripts/create-private-txt.sh
 
     - name: Add requirement to private.txt
       id: add-requirement
