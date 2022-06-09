@@ -20,6 +20,9 @@ inputs:
   repository-ref:
     description: 'branch or release of the XBlock repository'
     required: true
+  repository-token:
+    description: Github access token for the repository, if it is private
+    required: false
 outputs:
   path:
     description: 'The local file path to the requirement home folder. Example: '
@@ -47,7 +50,7 @@ runs:
       uses: actions/checkout@v3.0.2
       with:
         repository: ${{ inputs.repository-organization }}/${{ inputs.repository }}
-        token: ${{ github.token }}
+        token: ${{ inputs.repository-token }}
         path: ./${{ inputs.repository }}
         ref: ${{ inputs.repository-ref }}
 
