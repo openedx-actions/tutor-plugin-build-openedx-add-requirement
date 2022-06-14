@@ -38,7 +38,7 @@ jobs:
 
       # install and configure tutor
       - name: Configure Github workflow environment
-        uses: openedx-actions/tutor-k8s-init@v0.0.1
+        uses: openedx-actions/tutor-k8s-init@v0.0.13
 
       # THIS ACTION:
       - name: Add the edx-ora2 XBlock
