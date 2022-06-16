@@ -11,6 +11,7 @@
 
 Github Action that uses Tutor to add a Python requirement. Downloads the repository and adds a row to private.txt.
 
+This action was originally created to work seamlessly as a supporting action for [openedx-actions/tutor-plugin-build-openedx](https://github.com/openedx-actions/tutor-plugin-build-openedx) but it should also work with your own custom workflows.
 
 ## Usage:
 
@@ -38,11 +39,11 @@ jobs:
 
       # install and configure tutor
       - name: Configure Github workflow environment
-        uses: openedx-actions/tutor-k8s-init@v0.0.1
+        uses: openedx-actions/tutor-k8s-init@v1.0.0
 
       # THIS ACTION:
       - name: Add the edx-ora2 XBlock
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v0.0.1
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.0
         with:
           repository: edx-ora2
           repository-organization: openedx
@@ -50,7 +51,7 @@ jobs:
 
       # THIS ACTION:
       - name: Add django-debug-toolbar
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v0.0.1
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.0
         with:
           repository: django-debug-toolbar
           repository-organization: jazzband
@@ -62,8 +63,5 @@ jobs:
 
       # Build your openedx container
       - name: Build the image and upload to AWS ECR
-        uses: openedx-actions/tutor-plugin-build-openedx@v0.1.8
-        with:
-          custom-theme-repository: 'lpm0073/edx-theme-example'
-          custom-theme-repository-ref: 'master'
+        uses: openedx-actions/tutor-plugin-build-openedx@v1.0.0
 ```
