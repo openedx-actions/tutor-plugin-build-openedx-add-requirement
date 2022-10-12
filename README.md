@@ -9,7 +9,7 @@
 
 # tutor-plugin-build-openedx-add-requirement
 
-Github Action that uses Tutor to add a Python requirement. Downloads the repository and adds a row to private.txt.
+Github Action that uses Tutor to add a Python requirement, expressed as either a Github repository or a PyPi package name with an optional version constraint. Adds the requirement to private.txt and if necessary, downloads the repository.
 
 This action was originally created to work seamlessly as a supporting action for [openedx-actions/tutor-plugin-build-openedx](https://github.com/openedx-actions/tutor-plugin-build-openedx) but it should also work with your own custom workflows.
 
@@ -41,21 +41,20 @@ jobs:
       - name: Configure Github workflow environment
         uses: openedx-actions/tutor-k8s-init@v1.0.0
 
-      # THIS ACTION:
+      # THIS ACTION WITH A PYPI PACKAGE:
+      - name: Add django-debug-toolbar
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.1
+        with:
+          pip-package: django-debug-toolbar
+          pip-package-version: ">=3.7.0"
+
+      # THIS ACTION WITH A GITHUB REPOSITORY:
       - name: Add the edx-ora2 XBlock
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.0
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.1
         with:
           repository: edx-ora2
           repository-organization: openedx
           repository-ref: master
-
-      # THIS ACTION:
-      - name: Add django-debug-toolbar
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.0
-        with:
-          repository: django-debug-toolbar
-          repository-organization: jazzband
-          repository-ref: main
 
       #
       # ... more configuration stuff ...

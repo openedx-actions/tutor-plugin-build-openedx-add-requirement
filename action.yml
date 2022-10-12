@@ -11,15 +11,26 @@ branding:
   icon: 'cloud'
   color: 'orange'
 inputs:
+  pip-package:
+    description: 'Optional: name of the PyPi package, if it exists.'
+    required: false
+    default: ""
+  pip-package-version:
+    description: 'Optional: version constraint of the PyPi package, if it exists.'
+    required: false
+    default: ""
   repository:
-    description: 'Repository anme of the additional XBlock repository to install for this build'
-    required: true
+    description: 'Repository name of the additional XBlock repository to install for this build'
+    required: false
+    default: ""
   repository-organization:
     description: 'the Github organization containing the XBlock repository to install for this build'
-    required: true
+    required: false
+    default: ""
   repository-ref:
     description: 'branch or release of the XBlock repository'
-    required: true
+    required: false
+    default: ""
   repository-token:
     description: Github access token for the repository, if it is private
     required: false
@@ -45,8 +56,25 @@ runs:
       shell: bash
       run: echo $PLUGINS_PATH
 
-    - name: Checkout repo
+    - name: Validate if no inputs
+      id: validate-no-inputs
+      if: inputs.pip-package == '' and inputs.repository == ''
+      uses: actions/github-script@v3
+      with:
+        script: |
+            core.setFailed('expected a value for either pip-package or repository')
+
+    - name: Validate if both inputs
+      id: validate-both-inputs
+      if: inputs.pip-package != '' and inputs.repository != ''
+      uses: actions/github-script@v3
+      with:
+        script: |
+            core.setFailed('Ambiguous inputs: Was expecting a value for either pip-package or repository, but not both.')
+
+    - name: Checkout repo for editable requirement
       id: checkout-repo
+      if: inputs.repository != ''
       uses: actions/checkout@v3.1.0
       with:
         repository: ${{ inputs.repository-organization }}/${{ inputs.repository }}
@@ -56,6 +84,7 @@ runs:
 
     - name: move repo into position
       id: move-repo
+      if: inputs.repository != ''
       shell: bash
       run: mv $GITHUB_WORKSPACE/${{ inputs.repository }} $PLUGINS_PATH/
 
@@ -64,12 +93,20 @@ runs:
       shell: bash
       run: ${{ github.action_path }}/scripts/create-private-txt.sh
 
-    - name: Add requirement to private.txt
-      id: add-requirement
+    - name: Add PyPi package requirement to private.txt
+      id: add-pypi-requirement
+      if: inputs.pip-package != ''
+      shell: bash
+      run: |-
+        echo "${{ inputs.pip-package }}{{ inputs.pip-package-version }}" >> ${PLUGINS_PATH}/private.txt
+        echo "new PyPi requirement added to private.txt: "
+
+    - name: Add editable requirement to private.txt
+      id: add-editable-requirement
       shell: bash
       run: |-
         echo "-e ./${{ inputs.repository }}" >> ${PLUGINS_PATH}/private.txt
-        echo "new requirement added to private.txt: "
+        echo "new editable requirement added to private.txt: "
 
     - name: render private.txt
       id: render-private-txt
