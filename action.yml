@@ -59,7 +59,7 @@ runs:
     - name: Validate if no inputs
       id: validate-no-inputs
       if: inputs.pip-package == '' && inputs.repository == ''
-      uses: actions/github-script@v3
+      uses: actions/github-script@v6
       with:
         script: |
             core.setFailed('expected a value for either pip-package or repository')
@@ -67,7 +67,7 @@ runs:
     - name: Validate if both inputs
       id: validate-both-inputs
       if: inputs.pip-package != '' && inputs.repository != ''
-      uses: actions/github-script@v3
+      uses: actions/github-script@v6
       with:
         script: |
             core.setFailed('Ambiguous inputs: Was expecting a value for either pip-package or repository, but not both.')
