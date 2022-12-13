@@ -49,7 +49,7 @@ runs:
         echo "PLUGINS_PATH=$(tutor config printroot)/env/build/openedx/requirements" >> $GITHUB_ENV
 
     - name: actions/checkout
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v3.2.0
 
     - name: print tutor plugins path
       id: print-plugin-path
@@ -75,7 +75,7 @@ runs:
     - name: Checkout repo for editable requirement
       id: checkout-repo
       if: inputs.repository != ''
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v3.2.0
       with:
         repository: ${{ inputs.repository-organization }}/${{ inputs.repository }}
         token: ${{ inputs.repository-token }}
