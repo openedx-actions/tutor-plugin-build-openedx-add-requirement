@@ -50,7 +50,7 @@ jobs:
 
       # THIS ACTION WITH A GITHUB REPOSITORY:
       - name: Add the edx-ora2 XBlock
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.1
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.4
         with:
           repository: edx-ora2
           repository-organization: openedx

@@ -98,7 +98,7 @@ runs:
       if: inputs.pip-package != ''
       shell: bash
       run: |-
-        echo "${{ inputs.pip-package }}${{ inputs.pip-package-version }}" >> ${PLUGINS_PATH}/private.txt
+        echo "${{ inputs.pip-package }}==${{ inputs.pip-package-version }}" >> ${PLUGINS_PATH}/private.txt
         echo "new PyPi requirement added to private.txt: "
 
     - name: Add editable requirement to private.txt
