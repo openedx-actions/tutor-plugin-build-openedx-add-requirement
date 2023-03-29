@@ -49,7 +49,7 @@ runs:
         echo "PLUGINS_PATH=$(tutor config printroot)/env/build/openedx/requirements" >> $GITHUB_ENV
 
     - name: actions/checkout
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v3.5.0
 
     - name: print tutor plugins path
       id: print-plugin-path
@@ -59,7 +59,7 @@ runs:
     - name: Validate if no inputs
       id: validate-no-inputs
       if: inputs.pip-package == '' && inputs.repository == ''
-      uses: actions/github-script@v3
+      uses: actions/github-script@v6
       with:
         script: |
             core.setFailed('expected a value for either pip-package or repository')
@@ -67,7 +67,7 @@ runs:
     - name: Validate if both inputs
       id: validate-both-inputs
       if: inputs.pip-package != '' && inputs.repository != ''
-      uses: actions/github-script@v3
+      uses: actions/github-script@v6
       with:
         script: |
             core.setFailed('Ambiguous inputs: Was expecting a value for either pip-package or repository, but not both.')
@@ -75,7 +75,7 @@ runs:
     - name: Checkout repo for editable requirement
       id: checkout-repo
       if: inputs.repository != ''
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v3.5.0
       with:
         repository: ${{ inputs.repository-organization }}/${{ inputs.repository }}
         token: ${{ inputs.repository-token }}
