@@ -27,11 +27,11 @@ jobs:
 
     steps:
       # required antecedent
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.5.0
 
       # required antecedent
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1.6.1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.THE_NAME_OF_YOUR_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.THE_NAME_OF_YOUR_AWS_SECRET_ACCESS_KEY }}
@@ -39,18 +39,18 @@ jobs:
 
       # install and configure tutor
       - name: Configure Github workflow environment
-        uses: openedx-actions/tutor-k8s-init@v1.0.0
+        uses: openedx-actions/tutor-k8s-init@v1.0.8
 
       # THIS ACTION WITH A PYPI PACKAGE:
       - name: Add django-debug-toolbar
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.1
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.5
         with:
           pip-package: django-debug-toolbar
           pip-package-version: ">=3.7.0"
 
       # THIS ACTION WITH A GITHUB REPOSITORY:
       - name: Add the edx-ora2 XBlock
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.4
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.5
         with:
           repository: edx-ora2
           repository-organization: openedx
