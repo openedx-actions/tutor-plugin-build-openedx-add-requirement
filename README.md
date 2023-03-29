@@ -43,14 +43,14 @@ jobs:
 
       # THIS ACTION WITH A PYPI PACKAGE:
       - name: Add django-debug-toolbar
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.1
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.5
         with:
           pip-package: django-debug-toolbar
           pip-package-version: ">=3.7.0"
 
       # THIS ACTION WITH A GITHUB REPOSITORY:
       - name: Add the edx-ora2 XBlock
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.4
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.5
         with:
           repository: edx-ora2
           repository-organization: openedx
