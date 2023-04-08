@@ -5,10 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Version 1.0.6 (2023-04-08)
+## Version 1.0.7 (2023-04-08)
 
 - type all inputs to string
 - set repository-token default value to ''
+- add separate steps depending on whether we have a token
+
+## Version 1.0.6 (2023-04-08)
+
+- yanked
 
 ## Version 1.0.5 (2023-03-29)
 
