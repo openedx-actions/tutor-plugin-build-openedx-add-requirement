@@ -5,7 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Version 1.0.5 (2022-03-29)
+## Version 1.0.6 (2023-04-08)
+
+- type all inputs to string
+- set repository-token default value to ''
+
+## Version 1.0.5 (2023-03-29)
 
 - bump actions/github-script@v3 to actions/github-script@v6
 

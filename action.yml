@@ -14,26 +14,33 @@ inputs:
   pip-package:
     description: 'Optional: name of the PyPi package, if it exists.'
     required: false
-    default: ""
+    type: string
+    default: ''
   pip-package-version:
     description: 'Optional: version constraint of the PyPi package, if it exists.'
     required: false
-    default: ""
+    type: string
+    default: ''
   repository:
     description: 'Repository name of the additional XBlock repository to install for this build'
     required: false
-    default: ""
+    type: string
+    default: ''
   repository-organization:
     description: 'the Github organization containing the XBlock repository to install for this build'
     required: false
-    default: ""
+    type: string
+    default: ''
   repository-ref:
     description: 'branch or release of the XBlock repository'
     required: false
-    default: ""
+    type: string
+    default: ''
   repository-token:
     description: Github access token for the repository, if it is private
     required: false
+    type: string
+    default: ''
 outputs:
   path:
     description: 'The local file path to the requirement home folder. Example: '
