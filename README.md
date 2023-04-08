@@ -50,7 +50,7 @@ jobs:
       # THIS ACTION WITH A GITHUB REPOSITORY:
       #   repository-token is an optional input with a default value of ''
       - name: Add the edx-ora2 XBlock
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.6
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.7
         with:
           repository: edx-ora2
           repository-organization: openedx

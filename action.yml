@@ -79,15 +79,24 @@ runs:
         script: |
             core.setFailed('Ambiguous inputs: Was expecting a value for either pip-package or repository, but not both.')
 
-    - name: Checkout repo for editable requirement
-      id: checkout-repo
-      if: inputs.repository != ''
+    - name: Checkout repo with token for editable requirement
+      id: checkout-repo-without-token
+      if: inputs.repository != '' && inputs.repository-token == ''
       uses: actions/checkout@v3.5.0
       with:
         repository: ${{ inputs.repository-organization }}/${{ inputs.repository }}
-        token: ${{ inputs.repository-token }}
         path: ./${{ inputs.repository }}
         ref: ${{ inputs.repository-ref }}
+
+    - name: Checkout repo using PAT for editable requirement
+      id: checkout-repo-with-token
+      if: inputs.repository != '' && inputs.repository-token != ''
+      uses: actions/checkout@v3.5.0
+      with:
+        repository: ${{ inputs.repository-organization }}/${{ inputs.repository }}
+        path: ./${{ inputs.repository }}
+        ref: ${{ inputs.repository-ref }}
+        token: ${{ inputs.repository-token }}
 
     - name: move repo into position
       id: move-repo
