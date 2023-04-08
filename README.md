@@ -13,8 +13,7 @@ Github Action that uses Tutor to add a Python requirement, expressed as either a
 
 This action was originally created to work seamlessly as a supporting action for [openedx-actions/tutor-plugin-build-openedx](https://github.com/openedx-actions/tutor-plugin-build-openedx) but it should also work with your own custom workflows.
 
-## Usage:
-
+## Usage
 
 ```yaml
 name: Example workflow
@@ -49,12 +48,14 @@ jobs:
           pip-package-version: ">=3.7.0"
 
       # THIS ACTION WITH A GITHUB REPOSITORY:
+      #   repository-token is an optional input with a default value of ''
       - name: Add the edx-ora2 XBlock
-        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.5
+        uses: openedx-actions/tutor-plugin-build-openedx-add-requirement@v1.0.6
         with:
           repository: edx-ora2
           repository-organization: openedx
           repository-ref: master
+          repository-token: ${{ secrets.PAT }}
 
       #
       # ... more configuration stuff ...
